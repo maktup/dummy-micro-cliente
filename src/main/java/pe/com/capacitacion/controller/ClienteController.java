@@ -17,9 +17,9 @@ import java.util.List;
  @RequestMapping( "/dummy-micro-cliente" )   //NO USAR: [server.servlet.context-path], 'BOOT-ADMIN' reconocera el 'ACTUATOR'.
  public class ClienteController{
  
-        private String vClientes_01 = "{ \"nombre\": \"PAOLO GUERRERO\", \"edad\": 35, \"rol\": \"CONSULTOR\",   \"direccion\": \"Calle. 123 Chorrillos\", \"dni\": \"41816133\" }";
-        private String vClientes_02 = "{ \"nombre\": \"LUIS GUADALUPE\", \"edad\": 40, \"rol\": \"PROGRAMADOR\", \"direccion\": \"Av. 333 Lince\",         \"dni\": \"45886854\" }";  	 
-        private String vClientes_03 = "{ \"nombre\": \"PEDRO SALAZAR\",  \"edad\": 30, \"rol\": \"ARQUITECTO\",  \"direccion\": \"Jiron. 123 Lima\",       \"dni\": \"41818956\" }";
+        private String vClientes_01 = "{ \"nombre\": \"PAOLO GUERRERO\", \"edad\": 35, \"rol\": \"CONSULTOR\",   \"direccion\": \"Calle. 123 Chorrillos\", \"dni\": \"41816133\", \"version\": \"v1\" }";
+        private String vClientes_02 = "{ \"nombre\": \"LUIS GUADALUPE\", \"edad\": 40, \"rol\": \"PROGRAMADOR\", \"direccion\": \"Av. 333 Lince\",         \"dni\": \"45886854\", \"version\": \"v1\" }"; 	 
+        private String vClientes_03 = "{ \"nombre\": \"PEDRO SALAZAR\",  \"edad\": 30, \"rol\": \"ARQUITECTO\",  \"direccion\": \"Jiron. 123 Lima\",       \"dni\": \"41818956\", \"version\": \"v1\" }";
         private String vClientes_04 = "[" + vClientes_01 + "," + vClientes_02 + "," + vClientes_03 + "]";	 
 	 
         private List<String> listaClientes = new ArrayList<String>();  
