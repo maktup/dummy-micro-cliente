@@ -1,5 +1,8 @@
 package pe.com.capacitacion.controller;
  
+import org.springframework.http.HttpStatus; 
+import org.springframework.http.RequestEntity.BodyBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,23 +33,35 @@ import java.util.List;
 	    * @return String 
 	    **/
 		@GetMapping( "/get/clientes/{id}" )
-		public String  consultarClientesPorId( @PathVariable( "id" ) long id ){
+		public ResponseEntity<String> consultarClientesPorId( @PathVariable( "id" ) long id ){
 			   log.info( "'consultarClientesPorId': id={}", id );
-    
-	           this.listaClientes.add( this.vClientes_01 );	   
-	           this.listaClientes.add( this.vClientes_02 );
-	           this.listaClientes.add( this.vClientes_03 );
- 	           
-	           String vDatoJson = "";
-	           for( int i=0; i<this.listaClientes.size(); i++ ){	        	   
-	        	    if( (i+1) == id ){
-	        	    	vDatoJson = this.listaClientes.get( i ); 
-	        	    	break; 
-	        	    }  
+               
+			   BodyBuilder builder;
+			   String objResponseMsg = "";
+			   
+			   try {
+				   this.listaClientes.add( this.vClientes_01 );	   
+				   this.listaClientes.add( this.vClientes_02 );
+				   this.listaClientes.add( this.vClientes_03 );
+				   
+				   String vDatoJson = "";
+				   for( int i=0; i<this.listaClientes.size(); i++ ){	        	   
+					   if( (i+1) == id ){
+						   vDatoJson = this.listaClientes.get( i ); 
+						   break; 
+					   }  
+				   }
+				   
+				   objResponseMsg = vDatoJson;
+				   
+				   //return ResponseEntity.status( HttpStatus.OK ).body( objResponseMsg ); 
+				   
+				   Thread.sleep( 1000 * 5 );
+				   return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg );
 			   }
- 
-			   String objResponseMsg = vDatoJson;
-			   return objResponseMsg; 
+			   catch( Exception e ) { 
+				      return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg );
+			   }			   
 		} 
 		
 	   /**
