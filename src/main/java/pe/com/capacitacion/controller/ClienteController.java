@@ -1,7 +1,6 @@
 package pe.com.capacitacion.controller;
  
 import org.springframework.http.HttpStatus; 
-import org.springframework.http.RequestEntity.BodyBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,8 +34,7 @@ import java.util.List;
 		@GetMapping( "/get/clientes/{id}" )
 		public ResponseEntity<String> consultarClientesPorId( @PathVariable( "id" ) long id ){
 			   log.info( "'consultarClientesPorId': id={}", id );
-               
-			   BodyBuilder builder;
+  
 			   String objResponseMsg = "";
 			   
 			   try {
@@ -56,8 +54,8 @@ import java.util.List;
 				   
 				   //return ResponseEntity.status( HttpStatus.OK ).body( objResponseMsg ); 
 				   
-				   Thread.sleep( 1000 * 5 );
-				   return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg );
+				   Thread.sleep( 1000 * 5 ); //SOLO PARA PRUEBAS
+				   return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg ); //SOLO PARA PRUEBAS
 			   }
 			   catch( Exception e ) { 
 				      return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg );
