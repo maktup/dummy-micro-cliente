@@ -11,12 +11,20 @@ Los LINKs del 'MICROSERVICIO' son:
   1. Las 'URI' de tipo [GET] son:
      ---------------------------
   
-     - consultarClientes: 
-	   http://localhost:8080/dummy-micro-cliente/get/clientes
+     - consultarClientes [NODE-PORT]: 
+	   $ curl http://localhost:8080/dummy-micro-cliente/get/clientes
   
-     - consultarClientesPorId: 
-	   http://localhost:8080/dummy-micro-cliente/get/clientes/{id}
+     - consultarClientesPorId [NODE-PORT]:  
+	   $ curl http://localhost:8080/dummy-micro-cliente/get/clientes/{id}
 	 
+	 
+	   
+     - consultarClientes [CLUSTER-IP]: 
+	   $ curl http://my-cliente-service-ci:8080/dummy-micro-cliente/get/clientes
+	   
+     - consultarClientesPorId [CLUSTER-IP]: 
+	   $ curl http://my-cliente-service-ci:8080/dummy-micro-cliente/get/clientes/{id}
+ 
  
 DETALLE:
 ------- 
