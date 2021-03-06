@@ -24,7 +24,8 @@ import java.util.List;
         private String vClientes_03 = "{ \"nombre\": \"PEDRO SALAZAR\",  \"edad\": 30, \"rol\": \"ARQUITECTO\",  \"direccion\": \"Jiron. 123 Lima\",       \"dni\": \"41818956\", \"version\": \"v1\", \"codigoHttp\": \"XXX\" }";
         private String vClientes_04 = "[" + vClientes_01 + "," + vClientes_02 + "," + vClientes_03 + "]";	 
 	 
-        private List<String> listaClientes = new ArrayList<String>();  
+        private List<String> listaClientes  = new ArrayList<String>();  
+        private String       vCadenaReplace = "XXX";
         
 	   /** 
 	    * consultarClientesPorId	
@@ -51,12 +52,12 @@ import java.util.List;
 				   }
 				   
 				   objResponseMsg = vDatoJson;				   
-				   objResponseMsg = (objResponseMsg.replaceAll( "XXX" , HttpStatus.OK + "" ) ); 
+				   objResponseMsg = (objResponseMsg.replaceAll( this.vCadenaReplace, HttpStatus.OK + "" ) ); 
 				   
-				   return ResponseEntity.status( HttpStatus.OK ).body( objResponseMsg ); 
+				   //return ResponseEntity.status( HttpStatus.OK ).body( objResponseMsg ); 
 				   
-				   //Thread.sleep( 1000 * 5 ); //SOLO PARA PRUEBAS
-				   //return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg ); //SOLO PARA PRUEBAS
+				   Thread.sleep( 1000 * 5 ); //SOLO PARA PRUEBAS
+				   return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg ); //SOLO PARA PRUEBAS
 			   }
 			   catch( Exception e ) { 
 				      return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg );
