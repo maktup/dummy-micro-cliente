@@ -54,10 +54,11 @@ import java.util.List;
 				   objResponseMsg = vDatoJson;				   
 				   objResponseMsg = (objResponseMsg.replaceAll( this.vCadenaReplace, HttpStatus.OK + "" ) ); 
 				   
-				   return ResponseEntity.status( HttpStatus.OK ).body( objResponseMsg ); 
+				   //return ResponseEntity.status( HttpStatus.OK ).body( objResponseMsg ); 
 				   
-				   //Thread.sleep( 1000 * 5 ); //SOLO PARA PRUEBAS
-				   //return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg ); //SOLO PARA PRUEBAS
+				   Thread.sleep( 1000 * 5 ); //SOLO PARA PRUEBAS
+				   objResponseMsg = "Se encontró el ERROR: [" + HttpStatus.INTERNAL_SERVER_ERROR + "]"; 
+				   return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg ); //SOLO PARA PRUEBAS
 			   }
 			   catch( Exception e ) { 
 				      return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body( objResponseMsg );
