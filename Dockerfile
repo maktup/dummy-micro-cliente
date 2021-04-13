@@ -7,89 +7,73 @@
 #  openjdk:8-jdk-slim                   284MB 
 #  openjdk:8-jdk-alpine                 105MB 
 #  adoptopenjdk/openjdk8:alpine-slim    90.2MB
-#  oracle/graalvm-ce                    ???
 #-------------- [PESOS DE IMAGENES] -----------#
-
-#---------> [VERSION-MANEJADA: V3.0]#
 
 #//----------------------------------------------------------------//#
 #//------------------------  [COMPILACION] ------------------------//#
 #//----------------------------------------------------------------//#
+#1. PARTIR DE LA 'IMAGEN BASE' (CONSTRUCTOR): 
 FROM maven:3-jdk-8-alpine as CONSTRUCTOR 
 
-#1. CREA DIRECTORIO 'build':  
+#2. CREAR DIRECTORIO 'build' (DENTRO DEL CONTENEDOR):   
 RUN mkdir -p /build
 
-#2. DEFINIR UBICACION: 
+#3. CREAR DIRECTORIO (DENTRO DEL CONTENEDOR):  
 WORKDIR /build
 
-#3. COPIAR 'pom.xml' A DIRECTORIO 'build': 
+#4. COPIAR 'pom.xml' A DIRECTORIO 'build' (DENTRO DEL CONTENEDOR):  
 COPY pom.xml /build
 
-#4. DESCARGAR DEPENDENCIAS 'MAVEN': 
+#5. DESCARGAR DEPENDENCIAS 'MAVEN' (DENTRO DEL CONTENEDOR): 
 RUN mvn -B dependency:resolve dependency:resolve-plugins
 
-#5. COPIAR 'src' A DIRECTORIO '/build/src': 
+#6. COPIAR 'src' A DIRECTORIO '/build/src' (DENTRO DEL CONTENEDOR):  
 COPY src /build/src
 
-#6. EJECUTAR 'MAVEN': 
+#7. EJECUTAR 'MAVEN' (DENTRO DEL CONTENEDOR):  
 RUN mvn clean package
 
 
 #//----------------------------------------------------------------//#
 #//-------------------------  [EJECUCION] -------------------------//#
 #//----------------------------------------------------------------//#
+#8. PARTIR DE LA 'IMAGEN BASE' (RUNTIME): 
 FROM adoptopenjdk/openjdk8:alpine-slim as RUNTIME
 
-#7. DOCUMENTANDO: 
+#9. DOCUMENTAR: 
 MAINTAINER cesar guerra cesarricardo_guerra19@hotmail.com
 
-#8. EXPONER PUERTO '8080': 
+#10. EXPONER PUERTO '8080': 
 EXPOSE 8080
 
-#9. CREAR 'VARIABLE DE ENTORNO' 'APP_HOME': 
+#11. CREAR 'VARIABLE DE ENTORNO' 'APP_HOME': 
 ENV APP_HOME /app
 
-
-#10. CREAR 'VARIABLE DE ENTORNO' [ADICIONALES], PARA EL 'MICROSERVICIO': 
-#--------------------------------------------------------------------------------------------#
-ENV NOMBRE_MICROSERVICIO=dummy-micro-cliente
-#--------------------------------------------------------------------------------------------#
-
-
-#11. CREAR 'VARIABLE DE ENTORNO' 'JAVA_OPTS':  
+#12. CREAR 'VARIABLE DE ENTORNO' 'JAVA_OPTS':  
 ENV JAVA_OPTS=""
 
-#12. CREANDO DIRECTORIO 'BASE': 
+#13. CREAR DIRECTORIO 'BASE': 
 RUN mkdir $APP_HOME
 
-#13. CREANDO DIRECTORIO PARA 'ARCHIVOS DE CONFIGURACION': 
+#14. CREANDO DIRECTORIO PARA 'ARCHIVOS DE CONFIGURACION': 
 RUN mkdir $APP_HOME/config
 
-#14. CREANDO DIRECTORIO PARA 'LOGs': 
+#15. CREAR DIRECTORIO PARA 'LOGs': 
 RUN mkdir $APP_HOME/log
 
-#15. CREANDO 'VOLUME' PARA 'ARCHIVOS DE CONFIGURACION': 
+#16. CREAR 'VOLUME' PARA 'ARCHIVOS DE CONFIGURACION': 
 VOLUME $APP_HOME/config
 
-#16. CREANDO 'VOLUME' PARA 'LOGs':  
+#17. CREAR 'VOLUME' PARA 'LOGs':  
 VOLUME $APP_HOME/log
 
-
-#17. CREANDO 'VARIABLE DE ENTORNO' PARA 'VOLUME' DE 'LOGs' PARA EL 'MICROSERVICIO':
-#--------------------------------------------------------------------#
-ENV RUTA_LOG=$APP_HOME/log
-#--------------------------------------------------------------------#
-
-
-#18. COPIAR .JAR DE LA IMAGEN:  
+#18. COPIAR 'COMPILADO' (DENTRO DEL CONTENEDOR):   
 COPY --from=CONSTRUCTOR /build/target/*.jar app.jar
 
-#19. INSTALANDO 'SUDO, NANO, CURL':
+#19. INSTALANDO 'SUDO, NANO, CURL, SIEGE':
 RUN apk add -u sudo 
 RUN apk add -u nano
 RUN apk add -u curl
-
-#20. EJECUTAR 'JAR': 
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar app.jar" ]
-
+ 
+#20. INICIAR EL 'MICROSERVICIO': 
+ENTRYPOINT [ "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar app.jar" ]
